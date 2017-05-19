@@ -1,0 +1,118 @@
+------------------------------------------------------------------------------------------------------------
+
+<html>
+<head>
+	<title>StaffLogin</title>
+        <style>
+            aside{
+                background: #777;
+                margin-left: 70%;
+                padding: 15px;
+                border:1px solid black;
+                border-radius: 4px;
+                align-items: center;
+                opacity: 0.5;
+            }
+            aside:hover{
+                opacity: 1;
+            }
+            
+            button {
+                transition-duration: 0.4s;
+                border-radius: 4px;
+                padding: 2px;
+            }
+            button:hover {
+                padding: 2px;
+                font-size: 17px;
+                background: #4286f4;
+                color: white;
+                border: 1px solid #0050d1;
+            }
+            input{
+                
+                border-radius: 4px;
+            }
+            input:hover {
+                font-size: 15px;
+            }
+        </style>
+</head>
+<body style = "background-image: url('air.jpg')">
+<header>
+    <br><br><br><BR><BR><BR>
+</header>
+<br><br><br>
+<form action="loggingin.jsp">
+<aside>
+                UserName : <input type="text" name="username">
+		<br><br>
+		Password : &nbsp&nbsp<input type="password" name="pass">
+		<br><br>
+		<button type="submit">Submit</button>
+	
+	</aside>
+</form>
+
+</body>
+</html>
+-------------------------------------------------------------------------------------------------------------------
+
+
+<%-- 
+    Document   : loggingin
+    Created on : 13 Oct, 2016, 8:00:11 PM
+    Author     : flowers
+--%>
+
+<%@page import="java.io.OutputStream"%>
+<%@page import="org.apache.jasper.tagplugins.jstl.core.Redirect"%>
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.PreparedStatement"%>
+<%@page import="java.sql.DriverManager"%>
+<%@page import="java.sql.Connection"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Staff_Details</title>
+        <link rel="stylesheet" type="text/css" href="loggingin.css">
+    </head>
+    <body>
+        <%
+            String username = request.getParameter("username");
+            String pass = request.getParameter("pass");
+            Class.forName("oracle.jdbc.driver.OracleDriver");
+            Connection c = DriverManager.getConnection("jdbc:oracle:thin:@127.0.0.1:1521:xe","SYSTEM","Ratz");
+            PreparedStatement ps = c.prepareStatement("select * from STAFFLOGIN where username =? and password=?");
+            ps.setString(1, username);
+            ps.setString(2, pass);
+            ResultSet res = ps.executeQuery();
+            
+            if(res.next()){
+                %>
+                <h3>
+                    Staff Details
+                </h3>
+               
+                <section class="info">
+            
+                    
+                <br>Name : <%out.println(res.getString("name"));%>
+                <br>Date of birth : <%out.println(res.getDate("dob"));%>
+                <br>Post : <%out.println(res.getString("post"));%>
+                <br>Salary: <%out.println(res.getInt("salary"));%>
+                <br>Date of Joining:<%out.println(res.getDate("doj"));
+                %><br> Go to <a href="sim.jsp">work</a>
+                </section><%
+            }
+            else{
+                out.println("Username or password enterted wrong!!!");
+           
+                %><a href="stafflogin.html">Back</a><%
+            }
+         %>
+    </body>
+</html>
+--------------------------------------------------------------------------------------------------------------
