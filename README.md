@@ -1,2 +1,6 @@
 # GamePredictionDBMS
-Dbms project to determine who the probable of a match is for a game played between two teams
+Developed the application’s architecture and design using Dia.
+
+● Designed database using MySql and normalized the tables.
+Developed front end using HTML5 and CSS. Linked frontend and
+backend using PHP and Javascript.
